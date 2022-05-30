@@ -1,11 +1,55 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text } from "react-native";
+import { FlatList } from "react-native";
+import { getBottomSpace } from "react-native-iphone-x-helper";
 import { HightlightCard } from "../../components/HighlightCard";
-
+import {
+  ITransaction,
+  TransactionCard,
+} from "../../components/TransactionCard";
 import * as S from "./styles";
 
+export interface IFlatListData extends ITransaction {
+  id: string;
+}
+
 export function Dashboard() {
+  const transactions: IFlatListData[] = [
+    {
+      id: "1",
+      type: "positive",
+      title: "Desenvolvimento Mobile",
+      amount: "R$ 20.000,00",
+      category: {
+        icon: "dollar-sign",
+        name: "Salário",
+      },
+      date: "29/05/2022",
+    },
+    {
+      id: "2",
+      type: "negative",
+      title: "Starbucks",
+      amount: "R$ 47,00",
+      category: {
+        icon: "coffee",
+        name: "Alimentação",
+      },
+      date: "29/05/2022",
+    },
+    {
+      id: "3",
+      type: "negative",
+      title: "McDonalds",
+      amount: "R$ 34,90",
+      category: {
+        icon: "coffee",
+        name: "Alimentação",
+      },
+      date: "29/05/2022",
+    },
+  ];
+
   return (
     <S.Container>
       <S.Header>
@@ -47,6 +91,18 @@ export function Dashboard() {
           lastTransaction="01 à 16 de abril"
         />
       </S.HightlightCards>
+
+      <S.Transactions>
+        <S.Title>Listagem</S.Title>
+
+        <FlatList
+          data={transactions}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <TransactionCard {...item} />}
+          contentContainerStyle={{ paddingBottom: getBottomSpace() }}
+        />
+      </S.Transactions>
 
       <StatusBar style="light" />
     </S.Container>
