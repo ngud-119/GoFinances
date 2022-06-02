@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { FlatList } from "react-native";
 import { getBottomSpace } from "react-native-iphone-x-helper";
@@ -103,8 +102,6 @@ export function Dashboard() {
           contentContainerStyle={{ paddingBottom: getBottomSpace() }}
         />
       </S.Transactions>
-
-      <StatusBar style="light" />
     </S.Container>
   );
 }
