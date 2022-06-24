@@ -35,4 +35,6 @@ export const TransactionButtons = styled.View`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+
+  margin: 8px 0 16px;
 `;
