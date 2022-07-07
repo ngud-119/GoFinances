@@ -9,6 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import defaultTheme from "./src/global/styles/theme";
+import { CategorySelect } from "./src/screens/CategorySelect";
 import { Dashboard } from "./src/screens/Dashboard";
 import { Register } from "./src/screens/Register";
 
@@ -40,6 +41,11 @@ export default function App() {
     <ThemeProvider theme={defaultTheme}>
       {/* <Dashboard /> */}
       <Register />
+      {/* <CategorySelect
+        category=""
+        setCategory={() => {}}
+        closeSelectCategory={() => {}}
+      /> */}
 
       <StatusBar style="light" />
     </ThemeProvider>
