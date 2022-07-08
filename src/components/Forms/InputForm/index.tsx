@@ -7,9 +7,10 @@ import * as S from "./styles";
 interface InputFormProps extends InputProps {
   control: Control;
   name: string;
+  error?: string;
 }
 
-export function InputForm({ control, name, ...rest }: InputFormProps) {
+export function InputForm({ control, name, error, ...rest }: InputFormProps) {
   return (
     <S.Container>
       <Controller
@@ -18,7 +19,8 @@ export function InputForm({ control, name, ...rest }: InputFormProps) {
           <Input onChangeText={onChange} value={value} {...rest} />
         )}
         name={name}
-      ></Controller>
+      />
+      {error && <S.Error>{error}</S.Error>}
     </S.Container>
   );
 }

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.2",
+    "@hookform/resolvers": "^2.9.4",
     "expo": "~45.0.0",
     "expo-font": "~10.1.0",
     "expo-splash-screen": "~0.15.1",
@@ -23,7 +24,8 @@
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
