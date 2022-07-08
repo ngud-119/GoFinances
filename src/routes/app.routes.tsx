@@ -21,12 +21,6 @@ export function AppRoutes() {
           height: 88,
           paddingVertical: Platform.OS === "ios" ? 20 : 0,
         },
-        // tabBarIcon: ({ focused, color, size }) => {
-        //   let iconName;
-
-        //   // You can return any component that you like here!
-        //   // return <Ionicons name={iconName} size={size} color={color} />;
-        // },
       }}
     >
       <Screen

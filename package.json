@@ -31,9 +31,12 @@
     "styled-components": "^5.3.5",
     "yup": "^0.32.11"
   },
+  "resolutions": {
+    "@types/react": "~17.0.21"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/react": "^18.0.15",
+    "@types/react": "~17.0.21",
     "@types/react-native": "~0.67.6",
     "@types/react-native-vector-icons": "^6.4.10",
     "@types/styled-components-react-native": "^5.1.3",

@@ -1,4 +1,4 @@
-import { GestureResponderEvent, TouchableOpacityProps } from "react-native";
+import { GestureResponderEvent } from "react-native";
 import * as S from "./styles";
 
 interface CategorySelectProps {
