@@ -3,12 +3,14 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+import { NavigationContainer } from "@react-navigation/native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import defaultTheme from "./src/global/styles/theme";
+import { AppRoutes } from "./src/routes/app.routes";
 import { CategorySelect } from "./src/screens/CategorySelect";
 import { Dashboard } from "./src/screens/Dashboard";
 import { Register } from "./src/screens/Register";
@@ -39,13 +41,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      {/* <Dashboard /> */}
-      <Register />
-      {/* <CategorySelect
-        category=""
-        setCategory={() => {}}
-        closeSelectCategory={() => {}}
-      /> */}
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
 
       <StatusBar style="light" />
     </ThemeProvider>
