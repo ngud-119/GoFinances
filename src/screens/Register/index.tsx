@@ -1,16 +1,18 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { Alert, Keyboard, Modal } from "react-native";
-import { TouchableWithoutFeedback } from "react-native";
+import { Alert, Modal } from "react-native";
+import * as Yup from "yup";
 import { Button } from "../../components/Forms/Button";
 import { CategorySelectButton } from "../../components/Forms/CategorySelectButton";
 import { InputForm } from "../../components/Forms/InputForm";
 import { TransactionTypeButton } from "../../components/Forms/TransactionTypeButton";
 import { CategorySelect } from "../CategorySelect";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import uuid from "react-native-uuid";
 
+import { useTransactionsStorage } from "../../hooks/useTransactionsStorage";
 import * as S from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 const formSchema = Yup.object().shape({
   name: Yup.string()
@@ -18,7 +20,7 @@ const formSchema = Yup.object().shape({
     .min(2, "O nome precisa ter, pelo menos, 2 letras."),
   amount: Yup.number()
     .typeError("Preço deve ser um número")
-    .required()
+    .required("Preço é obrigatório")
     .positive("O preço deve ser positivo"),
 });
 
@@ -32,6 +34,7 @@ export function Register() {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(formSchema),
   });
@@ -42,6 +45,8 @@ export function Register() {
     icon: "any",
   });
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const navigation = useNavigation();
+  const { addTransactionToStorage } = useTransactionsStorage();
 
   function handleSelectTransactionType(type: "up" | "down") {
     setTransactionTypeSelected(type);
@@ -51,16 +56,36 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
-  const handleRegister: SubmitHandler<FieldValues | FormData> = (form) => {
+  const handleRegister: SubmitHandler<FieldValues | FormData> = async (
+    form
+  ) => {
     const registerData = {
+      id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
       transactionType: transactionTypeSelected,
       category: category.key,
     };
 
-    console.log(registerData);
+    try {
+      await addTransactionToStorage(registerData);
+      resetFields();
+
+      navigation.navigate("Listagem");
+    } catch (error) {
+      Alert.alert("Erro", "Houve um erro ao salvar a transação.");
+    }
   };
+
+  function resetFields() {
+    reset();
+    setTransactionTypeSelected("");
+    setCategory({
+      key: "category",
+      name: "Categoria",
+      icon: "any",
+    });
+  }
 
   return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
