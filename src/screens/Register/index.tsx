@@ -65,13 +65,14 @@ export function Register() {
       amount: form.amount,
       transactionType: transactionTypeSelected,
       category: category.key,
+      date: new Date(),
     };
 
     try {
       await addTransactionToStorage(registerData);
       resetFields();
 
-      navigation.navigate("Listagem");
+      navigation.navigate("Listagem" as never);
     } catch (error) {
       Alert.alert("Erro", "Houve um erro ao salvar a transação.");
     }
