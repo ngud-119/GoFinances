@@ -1,11 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export type Transaction = {
-  name: string;
-  amount: string;
-  transactionType: string;
-  category: string;
-};
+import { Transaction } from "../utils/types/transaction";
 
 const BASE_DATA_KEY = "@gofinances:transactions";
 

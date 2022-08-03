@@ -2,17 +2,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Alert, Modal } from "react-native";
+import uuid from "react-native-uuid";
 import * as Yup from "yup";
 import { Button } from "../../components/Forms/Button";
 import { CategorySelectButton } from "../../components/Forms/CategorySelectButton";
 import { InputForm } from "../../components/Forms/InputForm";
 import { TransactionTypeButton } from "../../components/Forms/TransactionTypeButton";
 import { CategorySelect } from "../CategorySelect";
-import uuid from "react-native-uuid";
 
-import { useTransactionsStorage } from "../../hooks/useTransactionsStorage";
-import * as S from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { useTransactionsStorage } from "../../hooks/useTransactionsStorage";
+import { Transaction } from "../../utils/types/transaction";
+import * as S from "./styles";
 
 const formSchema = Yup.object().shape({
   name: Yup.string()
@@ -38,7 +39,9 @@ export function Register() {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-  const [transactionTypeSelected, setTransactionTypeSelected] = useState("");
+  const [transactionTypeSelected, setTransactionTypeSelected] = useState<
+    "up" | "down" | undefined
+  >();
   const [category, setCategory] = useState({
     key: "category",
     name: "Categoria",
@@ -59,12 +62,12 @@ export function Register() {
   const handleRegister: SubmitHandler<FieldValues | FormData> = async (
     form
   ) => {
-    const registerData = {
+    const registerData: Transaction = {
       id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType: transactionTypeSelected,
-      category: category.key,
+      type: transactionTypeSelected === "up" ? "positive" : "negative",
+      category: category,
       date: new Date(),
     };
 
@@ -80,7 +83,7 @@ export function Register() {
 
   function resetFields() {
     reset();
-    setTransactionTypeSelected("");
+    setTransactionTypeSelected(undefined);
     setCategory({
       key: "category",
       name: "Categoria",

@@ -1,32 +1,20 @@
 import React from "react";
+import { TransactionDisplay } from "../../utils/types/transaction";
 
 import * as S from "./styles";
 
-interface ICategory {
-  name: string;
-  icon: string;
-}
-
-export interface ITransaction {
-  type: "positive" | "negative";
-  title: string;
-  amount: string;
-  category: ICategory;
-  date: string;
-}
-
-type TransactionCardProps = ITransaction;
+type TransactionCardProps = TransactionDisplay;
 
 export function TransactionCard({
   type,
-  title,
+  name,
   amount,
   category,
   date,
 }: TransactionCardProps) {
   return (
     <S.Container>
-      <S.Title>{title}</S.Title>
+      <S.Title>{name}</S.Title>
 
       <S.Amount type={type}>
         {type === "negative" && `- `}

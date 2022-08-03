@@ -1,53 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { getBottomSpace } from "react-native-iphone-x-helper";
 import { HightlightCard } from "../../components/HighlightCard";
-import {
-  ITransaction,
-  TransactionCard,
-} from "../../components/TransactionCard";
+import { TransactionCard } from "../../components/TransactionCard";
+import { useTransactionsStorage } from "../../hooks/useTransactionsStorage";
+import { TransactionDisplay } from "../../utils/types/transaction";
 import * as S from "./styles";
 
-export interface IFlatListData extends ITransaction {
-  id: string;
-}
+export type IFlatListData = TransactionDisplay;
 
 export function Dashboard() {
-  const transactions: IFlatListData[] = [
-    {
-      id: "1",
-      type: "positive",
-      title: "Desenvolvimento Mobile",
-      amount: "R$ 20.000,00",
-      category: {
-        icon: "dollar-sign",
-        name: "Salário",
-      },
-      date: "29/05/2022",
-    },
-    {
-      id: "2",
-      type: "negative",
-      title: "Starbucks",
-      amount: "R$ 47,00",
-      category: {
-        icon: "coffee",
-        name: "Alimentação",
-      },
-      date: "29/05/2022",
-    },
-    {
-      id: "3",
-      type: "negative",
-      title: "McDonalds",
-      amount: "R$ 34,90",
-      category: {
-        icon: "coffee",
-        name: "Alimentação",
-      },
-      date: "29/05/2022",
-    },
-  ];
+  const [transactions, setTransactions] = useState<IFlatListData[]>([]);
+  const { loadTransactions } = useTransactionsStorage();
+
+  useEffect(() => {
+    async function loadTransactionsOnState() {
+      const transactionsStoraged = await loadTransactions();
+
+      if (transactionsStoraged) {
+        const transactionsFormmated: IFlatListData[] = transactionsStoraged.map(
+          (transaction) => {
+            const amount = Number(transaction.amount).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            });
+            const date = Intl.DateTimeFormat("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+            }).format(new Date(transaction.date));
+
+            return {
+              id: transaction.id,
+              amount,
+              date,
+              category: transaction.category,
+              name: transaction.name,
+              type: transaction.type,
+            };
+          }
+        );
+
+        setTransactions(transactionsFormmated);
+      }
+    }
+
+    loadTransactionsOnState();
+  }, []);
 
   return (
     <S.Container>
