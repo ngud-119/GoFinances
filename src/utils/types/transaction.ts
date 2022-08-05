@@ -5,7 +5,7 @@ export interface Transaction {
   name: string;
   amount: string;
   type: "positive" | "negative";
-  category: Omit<ICategory, "color">;
+  categoryKey: string;
   date: Date;
 }
 

@@ -67,7 +67,7 @@ export function Register() {
       name: form.name,
       amount: form.amount,
       type: transactionTypeSelected === "up" ? "positive" : "negative",
-      category: category,
+      categoryKey: category.key,
       date: new Date(),
     };
 

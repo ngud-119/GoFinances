@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { getBottomSpace } from "react-native-iphone-x-helper";
 import { HightlightCard } from "../../components/HighlightCard";
@@ -13,40 +14,46 @@ export function Dashboard() {
   const [transactions, setTransactions] = useState<IFlatListData[]>([]);
   const { loadTransactions } = useTransactionsStorage();
 
-  useEffect(() => {
-    async function loadTransactionsOnState() {
-      const transactionsStoraged = await loadTransactions();
+  async function loadTransactionsOnState() {
+    const transactionsStoraged = await loadTransactions();
 
-      if (transactionsStoraged) {
-        const transactionsFormmated: IFlatListData[] = transactionsStoraged.map(
-          (transaction) => {
-            const amount = Number(transaction.amount).toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            });
-            const date = Intl.DateTimeFormat("pt-BR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "2-digit",
-            }).format(new Date(transaction.date));
+    if (transactionsStoraged) {
+      const transactionsFormmated: IFlatListData[] = transactionsStoraged.map(
+        (transaction) => {
+          const amount = Number(transaction.amount).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          });
+          const date = Intl.DateTimeFormat("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+          }).format(new Date(transaction.date));
 
-            return {
-              id: transaction.id,
-              amount,
-              date,
-              category: transaction.category,
-              name: transaction.name,
-              type: transaction.type,
-            };
-          }
-        );
+          return {
+            id: transaction.id,
+            amount,
+            date,
+            categoryKey: transaction.categoryKey,
+            name: transaction.name,
+            type: transaction.type,
+          };
+        }
+      );
 
-        setTransactions(transactionsFormmated);
-      }
+      setTransactions(transactionsFormmated);
     }
+  }
 
+  useEffect(() => {
     loadTransactionsOnState();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactionsOnState();
+    }, [])
+  );
 
   return (
     <S.Container>
