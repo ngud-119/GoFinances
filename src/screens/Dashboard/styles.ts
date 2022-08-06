@@ -83,3 +83,15 @@ export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   margin-bottom: 16px;
 `;
+
+export const ActivityIndicatorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ActivityIndicatorMessage = styled.Text`
+  font-size: ${RFValue(11)}px;
+  margin-top: 20px;
+  color: ${({ theme }) => theme.colors.text};
+`;
