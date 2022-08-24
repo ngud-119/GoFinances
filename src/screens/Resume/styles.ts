@@ -1,3 +1,4 @@
+import { ScrollView } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
@@ -28,3 +29,7 @@ export const Form = styled.View`
   width: 100%;
   padding: ${RFValue(24)}px ${RFValue(20)}px;
 `;
+
+export const Content = styled(ScrollView).attrs({
+  contentContainerStyle: { flex: 1, padding: 24 },
+})``;
