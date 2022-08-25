@@ -62,6 +62,11 @@ export function Register() {
   const handleRegister: SubmitHandler<FieldValues | FormData> = async (
     form
   ) => {
+    if (category.key === "category") {
+      Alert.alert("Erro", "Escolha uma categoria para continuar.");
+      return;
+    }
+
     const registerData: Transaction = {
       id: String(uuid.v4()),
       name: form.name,
@@ -92,7 +97,6 @@ export function Register() {
   }
 
   return (
-    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <S.Container>
       <S.Header>
         <S.Title>Cadastro</S.Title>
@@ -148,6 +152,5 @@ export function Register() {
         />
       </Modal>
     </S.Container>
-    // </TouchableWithoutFeedback>
   );
 }

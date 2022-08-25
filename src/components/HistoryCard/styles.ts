@@ -10,7 +10,7 @@ export const Container = styled.View<ContainerProps>`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 5px;
   border-color: ${({ color }) => color};
-  border-left-width: 5px;
+  border-left-width: 10px;
   padding: 13px 24px;
   margin-bottom: 8px;
 
@@ -25,6 +25,6 @@ export const Title = styled.Text`
 `;
 
 export const Amount = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(15)}px;
 `;
