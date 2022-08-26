@@ -55,3 +55,15 @@ export const Month = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(20)}px;
 `;
+
+export const ActivityIndicatorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ActivityIndicatorMessage = styled.Text`
+  font-size: ${RFValue(11)}px;
+  margin-top: 20px;
+  color: ${({ theme }) => theme.colors.text};
+`;

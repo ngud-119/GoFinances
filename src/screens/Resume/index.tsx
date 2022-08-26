@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { VictoryPie } from "victory-native";
 import { HistoryCard } from "../../components/HistoryCard";
 import { useTransactionsStorage } from "../../hooks/useTransactionsStorage";
@@ -23,6 +23,7 @@ interface TotalByCategory {
 export function Resume() {
   const theme = useTheme();
   const { loadTransactions } = useTransactionsStorage();
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [expensesByCategory, setExpensesByCategory] = useState(
     [] as TotalByCategory[]
@@ -39,6 +40,7 @@ export function Resume() {
   }
 
   async function loadTransactionFromAsyncStorage() {
+    setIsLoading(true);
     const transactions = await loadTransactions();
 
     const expenses = transactions.filter(
@@ -85,16 +87,13 @@ export function Resume() {
     });
 
     setExpensesByCategory(totalByCategory);
+    setIsLoading(false);
   }
-
-  useEffect(() => {
-    loadTransactionFromAsyncStorage();
-  }, [selectedDate]);
 
   useFocusEffect(
     useCallback(() => {
       loadTransactionFromAsyncStorage();
-    }, [])
+    }, [selectedDate])
   );
 
   return (
@@ -125,34 +124,45 @@ export function Resume() {
           </S.MonthSelectButton>
         </S.MonthSelect>
 
-        <S.ChartContainer>
-          <VictoryPie
-            data={expensesByCategory.map((expenseByCategory) => ({
-              x: expenseByCategory.percentage,
-              y: expenseByCategory.total,
-            }))}
-            colorScale={expensesByCategory.map(
-              (expenseByCategory) => expenseByCategory.categoryColor
-            )}
-            style={{
-              labels: {
-                fontSize: RFValue(16),
-                fontWeight: "600",
-                fill: theme.colors.shape,
-              },
-            }}
-            labelRadius={70}
-          />
-        </S.ChartContainer>
+        {isLoading ? (
+          <S.ActivityIndicatorContainer>
+            <ActivityIndicator color={theme.colors.primary} size="large" />
+            <S.ActivityIndicatorMessage>
+              Obtendo transações...
+            </S.ActivityIndicatorMessage>
+          </S.ActivityIndicatorContainer>
+        ) : (
+          <>
+            <S.ChartContainer>
+              <VictoryPie
+                data={expensesByCategory.map((expenseByCategory) => ({
+                  x: expenseByCategory.percentage,
+                  y: expenseByCategory.total,
+                }))}
+                colorScale={expensesByCategory.map(
+                  (expenseByCategory) => expenseByCategory.categoryColor
+                )}
+                style={{
+                  labels: {
+                    fontSize: RFValue(16),
+                    fontWeight: "600",
+                    fill: theme.colors.shape,
+                  },
+                }}
+                labelRadius={70}
+              />
+            </S.ChartContainer>
 
-        {expensesByCategory.map((expenseGroupedByCategory) => (
-          <HistoryCard
-            key={expenseGroupedByCategory.categoryName}
-            color={expenseGroupedByCategory.categoryColor}
-            title={expenseGroupedByCategory.categoryName}
-            amount={expenseGroupedByCategory.totalFormatted}
-          />
-        ))}
+            {expensesByCategory.map((expenseGroupedByCategory) => (
+              <HistoryCard
+                key={expenseGroupedByCategory.categoryName}
+                color={expenseGroupedByCategory.categoryColor}
+                title={expenseGroupedByCategory.categoryName}
+                amount={expenseGroupedByCategory.totalFormatted}
+              />
+            ))}
+          </>
+        )}
       </ScrollView>
     </S.Container>
   );

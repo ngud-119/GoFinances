@@ -35,8 +35,11 @@ export function Dashboard() {
     let totalIncome = 0;
 
     if (transactionsStoraged) {
-      const transactionsFormmated: IFlatListData[] = transactionsStoraged.map(
-        (transaction) => {
+      const transactionsFormmated: IFlatListData[] = transactionsStoraged
+        .sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        })
+        .map((transaction) => {
           if (transaction.type === "positive")
             totalIncome += Number(transaction.amount);
           else totalExpenses += Number(transaction.amount);
@@ -59,8 +62,7 @@ export function Dashboard() {
             name: transaction.name,
             type: transaction.type,
           };
-        }
-      );
+        });
 
       setTransactions(transactionsFormmated);
       setHighlightCardData({
