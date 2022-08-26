@@ -45,7 +45,7 @@ export default function App() {
         <AppRoutes />
       </NavigationContainer>
 
-      <StatusBar style="inverted" />
+      <StatusBar style="light" />
     </ThemeProvider>
   );
 }

@@ -15,6 +15,7 @@
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/native": "^6.0.11",
     "@types/": "react-navigation/native",
+    "date-fns": "^2.29.2",
     "expo": "~45.0.0",
     "expo-font": "~10.1.0",
     "expo-splash-screen": "~0.15.1",

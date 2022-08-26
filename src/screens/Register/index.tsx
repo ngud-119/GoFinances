@@ -78,23 +78,19 @@ export function Register() {
 
     try {
       await addTransactionToStorage(registerData);
-      resetFields();
+      reset();
+      setTransactionTypeSelected(undefined);
+      setCategory({
+        key: "category",
+        name: "Categoria",
+        icon: "any",
+      });
 
       navigation.navigate("Listagem" as never);
     } catch (error) {
       Alert.alert("Erro", "Houve um erro ao salvar a transação.");
     }
   };
-
-  function resetFields() {
-    reset();
-    setTransactionTypeSelected(undefined);
-    setCategory({
-      key: "category",
-      name: "Categoria",
-      icon: "any",
-    });
-  }
 
   return (
     <S.Container>
