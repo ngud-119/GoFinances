@@ -14,7 +14,12 @@ interface AuthContextProps {
 const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({} as IUser);
+  const [userInfo, setUserInfo] = useState({
+    id: "123",
+    name: "Walisson",
+    email: "walissonsilva10@gmail.com",
+    profileImage: "https://avatars.githubusercontent.com/u/13500056?v=4",
+  } as IUser);
 
   return (
     <AuthContext.Provider value={{ userInfo }}>{children}</AuthContext.Provider>

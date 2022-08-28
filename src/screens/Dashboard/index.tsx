@@ -5,6 +5,7 @@ import { getBottomSpace } from "react-native-iphone-x-helper";
 import { useTheme } from "styled-components";
 import { HightlightCard } from "../../components/HighlightCard";
 import { TransactionCard } from "../../components/TransactionCard";
+import { useAuth } from "../../hooks/useAuth";
 import { useTransactionsStorage } from "../../hooks/useTransactionsStorage";
 import { getLastTransactionDate } from "../../utils/getTransactionDate";
 import { TransactionDisplay } from "../../utils/types/transaction";
@@ -21,6 +22,7 @@ interface HighlightData {
 
 export function Dashboard() {
   const theme = useTheme();
+  const { userInfo } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<IFlatListData[]>([]);
   const { loadTransactions } = useTransactionsStorage();
@@ -116,13 +118,13 @@ export function Dashboard() {
           <S.UserProfile>
             <S.Photo
               source={{
-                uri: "https://avatars.githubusercontent.com/u/13500056?v=4",
+                uri: userInfo.profileImage,
               }}
             />
 
             <S.WelcomeMessages>
               <S.UserGreeting>Olá,</S.UserGreeting>
-              <S.UserName>Walisson!</S.UserName>
+              <S.UserName>{userInfo.name}!</S.UserName>
             </S.WelcomeMessages>
           </S.UserProfile>
 
