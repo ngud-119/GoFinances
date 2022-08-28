@@ -26,7 +26,11 @@ export const SignIn = () => {
 
       <S.Footer>
         <S.FooterWrapper>
-          <SignInSocialButton logo={GoogleLogo} title="Entrar com o Google" />
+          <SignInSocialButton
+            logo={GoogleLogo}
+            title="Entrar com o Google"
+            provider="google"
+          />
         </S.FooterWrapper>
       </S.Footer>
     </S.Container>

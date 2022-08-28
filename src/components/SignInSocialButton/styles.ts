@@ -1,8 +1,9 @@
-import { RectButton } from "react-native-gesture-handler";
+import React, { PropsWithChildren } from "react";
+import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-export const Button = styled(RectButton)`
+export const Button = styled(RectButton)<PropsWithChildren<RectButtonProps>>`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 5px;
   height: ${RFValue(56)}px;

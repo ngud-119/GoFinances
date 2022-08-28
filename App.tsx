@@ -1,21 +1,21 @@
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
+import "react-native-gesture-handler";
 
 import {
   Poppins_400Regular,
   Poppins_500Medium,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
-import { NavigationContainer } from "@react-navigation/native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "styled-components";
 import defaultTheme from "./src/global/styles/theme";
-import { AppRoutes } from "./src/routes/app.routes";
-import { SignIn } from "./src/screens/SignIn";
 import { AuthProvider } from "./src/hooks/useAuth";
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -42,15 +42,14 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <AuthProvider>
-        {/* <NavigationContainer>
-          <AppRoutes />
-        </NavigationContainer> */}
-        <SignIn />
-      </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={defaultTheme}>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
 
-      <StatusBar style="light" />
-    </ThemeProvider>
+        <StatusBar style="light" />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
