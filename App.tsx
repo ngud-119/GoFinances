@@ -14,6 +14,8 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import defaultTheme from "./src/global/styles/theme";
 import { AppRoutes } from "./src/routes/app.routes";
+import { SignIn } from "./src/screens/SignIn";
+import { AuthProvider } from "./src/hooks/useAuth";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -41,9 +43,12 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>
+      <AuthProvider>
+        {/* <NavigationContainer>
+          <AppRoutes />
+        </NavigationContainer> */}
+        <SignIn />
+      </AuthProvider>
 
       <StatusBar style="light" />
     </ThemeProvider>
