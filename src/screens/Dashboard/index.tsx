@@ -22,7 +22,7 @@ interface HighlightData {
 
 export function Dashboard() {
   const theme = useTheme();
-  const { userInfo } = useAuth();
+  const { userInfo, signOut } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<IFlatListData[]>([]);
   const { loadTransactions } = useTransactionsStorage();
@@ -128,7 +128,7 @@ export function Dashboard() {
             </S.WelcomeMessages>
           </S.UserProfile>
 
-          <S.Icon name="power" />
+          <S.Icon name="power" onPress={signOut} />
         </S.UserWrapper>
       </S.Header>
 
