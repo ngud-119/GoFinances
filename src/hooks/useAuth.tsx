@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { startAsync } from "expo-auth-session";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { OAuthProvider } from "../components/SignInSocialButton";
 
 const { GOOGLE_CLIENT_ID } = process.env;
@@ -13,15 +14,39 @@ interface IUser {
 }
 
 interface AuthContextProps {
+  isLoadingUser: boolean;
   userInfo: IUser;
   signIn: (provider: OAuthProvider) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
+const BASE_DATA_KEY = "@gofinances:user-data";
+
 const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [userInfo, setUserInfo] = useState({} as IUser);
+
+  useEffect(() => {
+    async function loadUserInfoFromAsyncStorage() {
+      setIsLoadingUser(true);
+      const userInfoFromAsyncStorage = await AsyncStorage.getItem(
+        BASE_DATA_KEY
+      );
+
+      if (userInfoFromAsyncStorage) {
+        try {
+          setUserInfo(JSON.parse(userInfoFromAsyncStorage));
+        } catch {
+          console.log("There is no user info on async storage.");
+        }
+      }
+      setIsLoadingUser(false);
+    }
+
+    loadUserInfoFromAsyncStorage();
+  }, []);
 
   async function signIn(provider: OAuthProvider) {
     switch (provider) {
@@ -50,21 +75,24 @@ export const AuthProvider: React.FC = ({ children }) => {
       );
       const userInfoData = await responseUserInfo.json();
 
-      setUserInfo({
+      const userData = {
         id: userInfoData.id,
         name: userInfoData.name,
         email: userInfoData.email,
         profileImage: userInfoData.picture,
-      });
+      };
+      setUserInfo(userData);
+      await AsyncStorage.setItem(BASE_DATA_KEY, JSON.stringify(userData));
     }
   }
 
   async function signOut() {
     setUserInfo({} as IUser);
+    await AsyncStorage.removeItem(BASE_DATA_KEY);
   }
 
   return (
-    <AuthContext.Provider value={{ userInfo, signIn, signOut }}>
+    <AuthContext.Provider value={{ isLoadingUser, userInfo, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -127,7 +127,6 @@ export function Dashboard() {
               <S.UserName>{userInfo.name}!</S.UserName>
             </S.WelcomeMessages>
           </S.UserProfile>
-
           <S.Icon name="power" onPress={signOut} />
         </S.UserWrapper>
       </S.Header>

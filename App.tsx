@@ -2,11 +2,6 @@ import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 import "react-native-gesture-handler";
 
-import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -25,9 +20,9 @@ export default function App() {
       await SplashScreen.preventAutoHideAsync();
 
       await Font.loadAsync({
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_700Bold,
+        Poppins_400Regular: require("./assets/fonts/Poppins-Regular.ttf"),
+        Poppins_500Medium: require("./assets/fonts/Poppins-Regular.ttf"),
+        Poppins_700Bold: require("./assets/fonts/Poppins-Regular.ttf"),
       });
 
       await SplashScreen.hideAsync();

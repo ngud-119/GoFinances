@@ -4,11 +4,11 @@ import { AppRoutes } from "./app.routes";
 import { AuthRoutes } from "./auth.routes";
 
 export function Routes() {
-  const { userInfo } = useAuth();
+  const { userInfo, isLoadingUser } = useAuth();
 
   return (
     <NavigationContainer>
-      {userInfo.id ? <AppRoutes /> : <AuthRoutes />}
+      {userInfo.id ? <AppRoutes /> : !isLoadingUser ? <AuthRoutes /> : null}
     </NavigationContainer>
   );
 }
